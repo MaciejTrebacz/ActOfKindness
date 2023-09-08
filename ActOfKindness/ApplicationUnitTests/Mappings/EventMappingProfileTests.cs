@@ -89,7 +89,7 @@ namespace ApplicationUnitTests.Mappings
             var destination = _mapper.Map<Event>(source);
 
             Assert.AreEqual(DateTime.ParseExact(source.StartingDate, "dd/MM/yyyy", CultureInfo.InvariantCulture), destination.StartingDate);
-            Assert.AreEqual(DateTime.ParseExact(source.EndingDate, "dd/MM/yyyy", CultureInfo.InvariantCulture), destination.EndingDate);
+            Assert.AreEqual(DateTime.ParseExact(source.EndingDate, "dd/MM/yyyy", CultureInfo.InvariantCulture).Add(new TimeSpan(23, 59, 59)), destination.EndingDate);
         }
     }
 }
