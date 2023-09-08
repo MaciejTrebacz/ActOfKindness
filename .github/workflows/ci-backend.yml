@@ -20,4 +20,4 @@ jobs:
     - name: Build
       run: dotnet build ActOfKindness/API/API.csproj --no-restore
     - name: Test
-      run: dotnet test ActOfKindness --no-build --verbosity detailed
+      run: dotnet test ActOfKindness.sln --no-build --verbosity normal
