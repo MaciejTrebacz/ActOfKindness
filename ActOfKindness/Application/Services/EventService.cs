@@ -61,6 +61,7 @@ namespace Application.Services
             if (await _eventRepository.GetEventByIdAsync(newEventDto.Id) is not null)
                 throw new BadRequestException(
                     $"Event with this ID ({newEventDto.Id}) exist",
+                    "Event with this ID already exist",
                     _contextService.Method,
                     _contextService.GetUserId,
                     _contextService.GetUserRole);
@@ -92,6 +93,7 @@ namespace Application.Services
             if (eventToDelete is null)
                 throw new NotFoundException(
                     $"Event ({id}) not found",
+                    "Event not found",
                     _contextService.Method,
                     userId,
                     role);
@@ -99,6 +101,7 @@ namespace Application.Services
             if (eventToDelete.UserId != userId && role == "User")
                 throw new ForbidException(
                     $"You are not allowed to delete event ({id})",
+                    "You are not allowed to delete this event",
                     _contextService.Method,
                     userId,
                     role);
@@ -115,6 +118,7 @@ namespace Application.Services
             if (eventDetails is null)
                 throw new NotFoundException(
                     $"Event ({id}) not found",
+                    "Event not found",
                     _contextService.Method,
                     _contextService.GetUserId,
                     _contextService.GetUserRole);
@@ -134,6 +138,7 @@ namespace Application.Services
             if (eventToUpdate is null)
                 throw new NotFoundException(
                     $"Event ({id}) not found",
+                    "Event not found",
                     _contextService.Method,
                     userId,
                     role);
@@ -141,6 +146,7 @@ namespace Application.Services
             if (eventToUpdate.UserId != userId && role == "User")
                 throw new ForbidException(
                     $"You are not allowed to update event ({id})",
+                    "You are not allowed to edit this event",
                     _contextService.Method,
                     userId,
                     role);
@@ -157,6 +163,7 @@ namespace Application.Services
             if (rowsChanged == 0)
                 throw new NotFoundException(
                     $"Event ({id}) not found",
+                    "Event not found",
                     _contextService.Method,
                     _contextService.GetUserId,
                     _contextService.GetUserRole);
@@ -186,6 +193,7 @@ namespace Application.Services
             if (newEvent is null)
                 throw new NotFoundException(
                     $"Event ({eventId}) not found",
+                    "Event not found",
                     _contextService.Method,
                     _contextService.GetUserId,
                     _contextService.GetUserRole);
@@ -205,6 +213,7 @@ namespace Application.Services
 
             if (eventToJoin is null)
                 throw new NotFoundException($"Event ({eventId}) not found",
+                    "Event not found",
                     _contextService.Method,
                     _contextService.GetUserId,
                     _contextService.GetUserRole);
@@ -213,12 +222,14 @@ namespace Application.Services
 
             if (eventToJoin.Participants.Any(eu => eu.UserId == userId))
                 throw new BadRequestException($"You already joined event ({eventId})",
+                    "You already joined this event",
                     _contextService.Method,
                     userId,
                     _contextService.GetUserRole);
 
             if (eventToJoin.IsFinished)
                 throw new BadRequestException($"Cannot join to event ({eventId}) because it has ended",
+                    "Cannot join to event because it has ended",
                     _contextService.Method,
                     userId,
                     _contextService.GetUserRole);
@@ -253,18 +264,21 @@ namespace Application.Services
 
             if (eventToLeave is null)
                 throw new NotFoundException($"Event ({eventId}) not found",
+                    "Event not found",
                     _contextService.Method,
                     _contextService.GetUserId,
                     _contextService.GetUserRole);
 
             if (eventToLeave.Participants.All(eu => eu.UserId != userId))
                 throw new BadRequestException($"You are not attending the event ({eventId})",
+                    "You cannot leave an event you haven't joined",
                     _contextService.Method,
                     userId,
                     _contextService.GetUserRole);
 
             if (eventToLeave.IsFinished)
                 throw new BadRequestException($"Cannot leave event ({eventId}) because it has ended",
+                    "Cannot leave event because it has ended",
                     _contextService.Method,
                     userId,
                     _contextService.GetUserRole);
