@@ -56,7 +56,7 @@ Act of Kindness web app connects users on a meaningful level (not like any other
 
 Clone this repository.
 ```
-git clone https://github.com/MarcinSzkurlat/ActOfKindness.git
+git clone https://github.com/MaciejTrebacz/ActOfKindness.git
 ```
 
 Make sure you have installed Docker on your computer. After that, you can run the below command from the `/ActOfKindness/` directory and get started with the `Act Of Kindness` immediately.
