@@ -12,8 +12,17 @@ namespace Persistence.Extensions
     {
         public static void AddPersistence(this IServiceCollection service, IConfiguration configuration)
         {
-            service.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlServer(configuration.GetConnectionString("ActOfKindness")));
+            if (Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == "Development")
+            {
+                service.AddDbContext<ApplicationDbContext>(options =>
+                    options.UseSqlServer(configuration.GetConnectionString("ActOfKindness")));
+            }
+            else if (Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == "Docker")
+            {
+                service.AddDbContext<ApplicationDbContext>(options =>
+                    options.UseSqlServer(Environment.GetEnvironmentVariable("ConnectionString")));
+            }
+
             service.AddScoped<IEventRepository, EventRepository>();
             service.AddScoped<ICommentRepository, CommentRepository>();
             service.AddScoped<IPhotoRepository, PhotoRepository>();

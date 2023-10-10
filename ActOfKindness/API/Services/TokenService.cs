@@ -27,7 +27,18 @@ public class TokenService
         };
 
         // creating key we gonna added to user after sucesfull login/reg
-        var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["TokenKey"]));
+        string tokenKey;
+
+        if (Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == "Development")
+        {
+            tokenKey = _configuration["TokenKey"]!;
+        }
+        else
+        {
+            tokenKey = "SuperExtraSampleTokenKey";
+        }
+
+        var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(tokenKey));
 
         // hashing our key 
         var credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha512Signature);

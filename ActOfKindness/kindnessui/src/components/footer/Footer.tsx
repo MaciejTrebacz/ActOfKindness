@@ -29,7 +29,7 @@ function Footer(){
                         <MemberCard name='Maciej Trębacz' github='MaciejTrebacz' linkedin='maciejtrebacz-12345'/>
                     </Grid.Column>
                         <Grid.Column width={2}>
-                    <MemberCard name='Tomasz Citko' github='Tomek-Boomer' linkedin='tomasz-citko'/>
+                    <MemberCard name='Tomasz Citko' github='TomaszCitko' linkedin='tomasz-citko'/>
                     </Grid.Column>
                 </Grid.Row>
             </Grid>

@@ -22,7 +22,18 @@ public static class IdentityServiceExtensions
             .AddEntityFrameworkStores<ApplicationDbContext>();
 
         // creating security key for our JWT TOKEN
-        var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["TokenKey"]!));
+        string tokenKey;
+
+        if (Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == "Development")
+        {
+            tokenKey = configuration["TokenKey"]!;
+        }
+        else
+        {
+            tokenKey = "SuperExtraSampleTokenKey";
+        }
+
+        var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(tokenKey));
 
         services.AddAuthentication(opt =>
         {

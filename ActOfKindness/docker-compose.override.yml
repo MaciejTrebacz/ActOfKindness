@@ -1,0 +1,16 @@
+version: '3.4'
+
+services:
+  db:
+   environment:
+    - ACCEPT_EULA=Y
+    - MSSQL_SA_PASSWORD=Password123?
+  api:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Docker
+      - ConnectionString=Server=db,1433;Database=ActOfKindness;User Id=SA;Password=Password123?;Trusted_Connection=false;Encrypt=False;
+    ports:
+     - 5092:80
+  ui:
+   ports:
+    - 3000:3000

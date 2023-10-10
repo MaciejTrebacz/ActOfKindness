@@ -21,7 +21,7 @@ namespace Persistence
 
         public async Task SeedAsync()
         {
-            await _dbContext.Database.MigrateAsync();
+            await _dbContext.Database.EnsureCreatedAsync();
 
             if (!_dbContext.Roles.Any())
             {
@@ -39,7 +39,7 @@ namespace Persistence
                 var moderatedEvents = GetModeratedEvents();
                 _dbContext.Events.AddRange(moderatedEvents);
                 moderatedEvents[0].Participants.AddRange(AddParticipantsToEvent(moderatedEvents[0]));
-                
+
                 var unmoderatedEvents = GetUnmoderatedEvents();
                 _dbContext.Events.AddRange(unmoderatedEvents);
 
@@ -130,6 +130,23 @@ namespace Persistence
                             Id = "44444"
                         }
                     }
+                },
+                new()
+                {
+                    Nickname = "admin",
+                    Email = "admin@test.com",
+                    UserName = "Admin",
+                    EmailConfirmed = true,
+                    Location = "Warszawa",
+                    Photos = new List<Photo?>
+                    {
+                        new Photo
+                        {
+                            IsMain = true,
+                            Url = "https://res.cloudinary.com/do5wipffc/image/upload/v1692609948/770117_people_512x512_zsgurn.png",
+                            Id = "55555"
+                        }
+                    }
                 }
             };
 
@@ -144,9 +161,9 @@ namespace Persistence
         {
             var user = new AppUser()
             {
-                Nickname = "romek",
-                Email = "romek@gmail.com",
-                UserName = "Roman",
+                Nickname = "user",
+                Email = "user@test.com",
+                UserName = "User",
                 EmailConfirmed = true,
                 Location = "Warszawa",
                 Photos = new List<Photo?>
@@ -231,7 +248,7 @@ namespace Persistence
                 new()
                 {
                     Id = new Guid(),
-                    UserId = _userManager.FindByNameAsync("Roman").Result!.Id,
+                    UserId = _userManager.FindByNameAsync("Admin").Result!.Id,
                     Title = "Old lady needs some support",
                     Localization = "Grodzisk Mazowiecki",
                     Description =
@@ -311,7 +328,7 @@ namespace Persistence
                 new()
                 {
                     Id = new Guid(),
-                    UserId = _userManager.FindByNameAsync("Roman").Result!.Id,
+                    UserId = _userManager.FindByNameAsync("User").Result!.Id,
                     Title = "Need a second pair of hands",
                     Localization = "Poland, Oświęcim",
                     Description =
@@ -339,7 +356,7 @@ namespace Persistence
                 new()
                 {
                     Event = eventToAdd,
-                    User = _userManager.FindByNameAsync("Roman").Result!
+                    User = _userManager.FindByNameAsync("User").Result!
                 }
             };
 
